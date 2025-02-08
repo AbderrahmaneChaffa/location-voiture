@@ -17,11 +17,12 @@ class RoleMiddleware
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle($request, Closure $next, $role)
+    public function handle($request, Closure $next, $role = null)
     {
-        if (Auth::check() && Auth::user()->role === $role) {
+        if (!$role || (Auth::check() && Auth::user()->role === $role)) {
             return $next($request);
         }
         abort(403, 'Accès non autorisé.');
     }
+    
 }
